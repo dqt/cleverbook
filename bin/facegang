@@ -25,7 +25,7 @@ class App
 
     begin
       info "Installing facebook app and getting token"
-      install_app_get_token()
+      FacebookMacros.install_app_get_token(config)
       info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
     rescue => e
       error "#{e}"

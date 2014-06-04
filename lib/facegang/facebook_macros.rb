@@ -9,6 +9,25 @@ module Facegang
     include Methadone::Main
     include Methadone::CLILogging
 
+    def self.install_app_get_token(config)
+      # install facebook application when dialogue requires two clicks on okay
+      session = Hash.new # Koala session
+      session = get_auth_url(config, session)
+      install_app(config, session[:auth_url])
+      session = Hash.new # Second Koala session for weird facebook auth problem
+      session = get_auth_url(config, session)
+      code = get_code(config, session[:auth_url])
+      session = get_access_token(session, code)
+    end
+
+    def self.already_installed_get_token(config)
+      # Facebook app has already been installed, just get access token
+      session = Hash.new # Kola session
+      session = get_auth_url(config, session)
+      code = get_code(config, session[:auth_url])
+      session = get_access_token(session, code)
+    end
+
     def self.get_auth_url(config, session)
       begin
         debug "Starting get_auth facebook macro"
