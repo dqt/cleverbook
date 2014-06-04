@@ -13,9 +13,9 @@ Feature: Autorespond to Facebook messages
     And there should be a description of what the app does
 
   Scenario: Load configuration
-    Given a configuration file exists at "config.yaml"
-    When I successfully run "facegang config.yaml"
-    Then the configuration file "config.yaml" should be loaded into a config Hash
+    Given a configuration file exists at "config.yml"
+    When I successfully run `facegang config.yml`
+    Then the configuration file "config.yml" should be loaded into a config Hash
     And the config Hash should contain app_id
     And the config Hash should contain app_secret
     And the config Hash should contain site_url

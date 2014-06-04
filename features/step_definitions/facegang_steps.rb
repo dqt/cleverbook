@@ -1,3 +1,7 @@
+Before do
+   @config = YAML::load(File.read("#{ENV["HOME"]}/config.yml"))
+end
+
 Then(/^there should be a description of what the app does$/) do
   output_lines = all_output.split(/\n/)
   #output_lines.should have_at_least(3).items
@@ -8,16 +12,15 @@ Then(/^there should be a description of what the app does$/) do
 end
 
 Given(/^a configuration file exists at "(.*?)"$/) do |arg1|
-  expect(File).to exist(arg1)
+  expect(File).to exist("#{ENV["HOME"]}/#{arg1}")
 end
 
 Then(/^the configuration file "(.*?)" should be loaded into a config Hash$/) do |arg1|
-  hash = YAML::load(File.read(arg1))
-  expect(hash.class).to eq(Hash)
+  expect(@config.class).to eq(Hash)
 end
 
 Then(/^the config Hash should contain app_id$/) do
-  expect(hash["app_id").to_not be_blank
+  pending
 end
 
 Then(/^the config Hash should contain app_secret$/) do

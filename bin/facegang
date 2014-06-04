@@ -8,10 +8,11 @@ class App
   include Methadone::Main
   include Methadone::CLILogging
 
-  main do # Add args you want: |like,so|
+  main do |config_file|
     # your program code here
     # You can access CLI options via
     # the options Hash
+    @config = YAML::load(File.read("#{ENV["HOME"]}/#{config_file}"))
   end
 
   # supplemental methods here
