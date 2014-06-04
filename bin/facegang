@@ -10,25 +10,30 @@ class App
   include Facegang
 
   main do |config_file|
-    # your program code here
-    # You can access CLI options via
-    # the options Hash
-    config = YAML::load(File.read("#{ENV["HOME"]}/#{config_file}"))
 
-    session = Hash.new # Koala session
-    session = FacebookMacros.get_auth_url(config, session)
-    FacebookMacros.install_app(config, session[:auth_url])
-    session = Hash.new # Second Koala session for weird facebook auth problem
-    session = FacebookMacros.get_auth_url(config, session)
-    code = FacebookMacros.get_code(config, session[:auth_url])
-    session = FacebookMacros.get_access_token(session, code)
+    info "Started program"
 
-    info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
+    begin
+      info "Loading configuration file"
+      debug "CONFIG LOCATION: #{Dir.pwd}/#{config_file}"
+      config = YAML::load(File.read("#{Dir.pwd}/#{config_file}"))
+      debug "Loaded config successfully"
+    rescue => e
+      warn "Error loading configuration file"
+      error "#{e}"
+    end
+
+    begin
+      info "Installing facebook app and getting token"
+      install_app_get_token()
+      info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
+    rescue => e
+      error "#{e}"
+    end
 
   end
 
   # supplemental methods here
-
   # Declare command-line interface here
 
   description "Facebook e-whoring toolkit"

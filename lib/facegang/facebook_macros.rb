@@ -1,3 +1,8 @@
+require 'koala'
+require 'capybara'
+require 'capybara/poltergeist'
+require 'selenium-webdriver'
+
 module Facegang
   class FacebookMacros
 
@@ -31,11 +36,11 @@ module Facegang
 
         session.visit auth_url
         debug "Visited #{auth_url}"
-        sleep 2 
+        sleep 2
 
         session.fill_in('email', :with => config["email"])
         debug "Filled in email with #{config["email"]}"
-        sleep 1        
+        sleep 1
 
         session.fill_in('pass', :with => config["password"])
         debug "Filled in password with #{config["password"]}"
@@ -48,7 +53,7 @@ module Facegang
         session.find(:xpath, "//button[@name='__CONFIRM__']").click
         debug "Clicked first okay"
         sleep 2
-        
+
         session.find(:xpath, "//button[@name='__CONFIRM__']").click
         debug "Clicked second okay"
         sleep 1
@@ -74,19 +79,19 @@ module Facegang
         session.visit auth_url
         debug "Visited #{auth_url}"
         sleep 2
-        
+
         session.fill_in('email', :with => config["email"])
         debug "Filled in email with #{config["email"]}"
         sleep 1
-        
+
         session.fill_in('pass', :with => config["password"])
         debug "Filled in password with #{config["password"]}"
         sleep 1
-        
+
         session.find('#loginbutton').click
         debug "Logged in successfully, getting code from redirect"
         sleep 2
-        
+
         url = session.current_url
         debug "REDIRECT URL: #{url}"
         debug "ACCESS CODE: #{url[28..-5]}" # Given site_url = "http://127.0.0.1:8080/"
