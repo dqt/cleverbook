@@ -9,7 +9,7 @@ class App
   include Methadone::CLILogging
   include Facegang
 
-  main do |config_file|
+  main do |config_file, tool|
 
     info "Started program"
 
@@ -23,13 +23,21 @@ class App
       error "#{e}"
     end
 
-    begin
-      info "Installing facebook app and getting token"
-      FacebookMacros.install_app_get_token(config)
-      info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
-    rescue => e
-      error "#{e}"
+    if tool == "autoresponder" and options["install"]
+      # Install facebook app and start autoresponder
+      begin
+        # Install facebook app, get access token to start responder
+        info "Installing facebook app and getting token"
+        session = FacebookMacros.install_app_get_token(config)
+        info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
+      rescue => e
+        error "#{e}"
+      end
+
+      # Now that we have the access token use it to start the autoresponder
+
     end
+
 
   end
 
@@ -43,12 +51,13 @@ class App
   # options[flag] will contain VAL
   #
   # Specify switches via:
-  # on("--[no-]switch","Some switch")
+  on("--[no-]install", "Install Facebook app to profile")
   #
   # Or, just call OptionParser methods on opts
   #
   # Require an argument
   arg :config_file, "Path to the configuration file"
+  arg :tool, "Name of the tool you'd like to use"
   #
   # # Make an argument optional
   # arg :optional_arg, :optional
