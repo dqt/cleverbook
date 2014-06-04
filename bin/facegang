@@ -7,12 +7,24 @@ require 'facegang.rb'
 class App
   include Methadone::Main
   include Methadone::CLILogging
+  include Facegang
 
   main do |config_file|
     # your program code here
     # You can access CLI options via
     # the options Hash
-    @config = YAML::load(File.read("#{ENV["HOME"]}/#{config_file}"))
+    config = YAML::load(File.read("#{ENV["HOME"]}/#{config_file}"))
+
+    session = Hash.new # Koala session
+    session = FacebookMacros.get_auth_url(config, session)
+    FacebookMacros.install_app(config, session[:auth_url])
+    session = Hash.new # Second Koala session for weird facebook auth problem
+    session = FacebookMacros.get_auth_url(config, session)
+    code = FacebookMacros.get_code(config, session[:auth_url])
+    session = FacebookMacros.get_access_token(session, code)
+
+    info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
+
   end
 
   # supplemental methods here
