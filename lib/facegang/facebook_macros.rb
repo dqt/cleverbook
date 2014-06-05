@@ -140,7 +140,7 @@ module Facegang
       @graph = Koala::Facebook::API.new(oauth_access_token)
     end
 
-    def self.get_my_profile(@graph)
+    def self.get_my_profile(graph)
 =begin
   {
     "id": "629666774",
@@ -155,7 +155,7 @@ module Facegang
     "verified": true
   }
 =end
-      profile = @graph.get_object("me")
+      profile = graph.get_object("me")
     end
   end
 end
