@@ -53,7 +53,7 @@ module Facegang
       client.close
     end
 
-    def self.build_message_bot(id_string, to_string, incoming_message, @params)
+    def self.build_message_bot(id_string, to_string, incoming_message, @params = {})
       id = "#{id_string}@chat.facebook.com"
       to = "#{to_string}@chat.facebook.com"
       body = get_response_from_cleverbot(incoming_message, @params)
