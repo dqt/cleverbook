@@ -50,7 +50,7 @@ class App
       # Build new client
       client = Autoresponder.build_client(@profile["id"], config["app_id"], session[:access_token], config["app_secret"])
       # Run message call back thread
-      Autoresponder.run_response_thread(client)
+      Autoresponder.run_response_thread(client, @profile["id"])
     rescue => e
       error "#{e}"
     end
@@ -74,7 +74,7 @@ class App
       # Build new client
       client = Autoresponder.build_client(@profile["id"], config["app_id"], session[:access_token], config["app_secret"])
       # Run message call back thread
-      Autoresponder.run_response_thread(client)
+      Autoresponder.run_response_thread(client, @profile["id"])
     rescue => e
       error "#{e}"
     end

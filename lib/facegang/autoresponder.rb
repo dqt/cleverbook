@@ -84,7 +84,7 @@ module Facegang
       response
     end
 
-    def self.run_response_thread(cl, id_string, to_string)
+    def self.run_response_thread(cl, id_string)
       jabber_id = "#{id_string}@chat.facebook.com"
 
       Jabber::debug = true
