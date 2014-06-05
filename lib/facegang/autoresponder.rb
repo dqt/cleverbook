@@ -53,10 +53,10 @@ module Facegang
       client.close
     end
 
-    def self.build_message_bot(id_string, to_string, incoming_message, @params = {})
+    def self.build_message_bot(id_string, to_string, incoming_message, params = {})
       id = "#{id_string}@chat.facebook.com"
       to = "#{to_string}@chat.facebook.com"
-      body = get_response_from_cleverbot(incoming_message, @params)
+      body = get_response_from_cleverbot(incoming_message, params)
       # Psuedo-randomn anti-signature goodnes in the subject
       subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
       message = Jabber::Message.new to, body
@@ -64,8 +64,8 @@ module Facegang
       message
     end
 
-    def self.get_response_from_cleverbot(my_message, @params = {})
-      @params = Cleverbot::Client.write my_message, @params
+    def self.get_response_from_cleverbot(my_message, params = {})
+      @params = Cleverbot::Client.write my_message, params
       # response = @params["message"]
     end
 
