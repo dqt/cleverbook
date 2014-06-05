@@ -78,7 +78,7 @@ class App
 
   # Global logging object
   use_log_level_option
-  x = Logger.new('facegang.log')
+  self.x = Logger.new('facegang.log')
 
   go!
 end
