@@ -24,14 +24,14 @@ class App
     end
 
     if tool == "autoresponder" and options["install"]
-      install_app_start_autoresponder
+      install_app_start_autoresponder(config)
     end
 
 
   end
 
   # supplemental methods here
-  def self.install_app_start_autoresponder
+  def self.install_app_start_autoresponder(config)
   # Install facebook app and start autoresponder
     begin
       # Install facebook app, get access token to start responder
