@@ -135,5 +135,27 @@ module Facegang
         error "#{e}"
       end
     end
+
+    def self.get_graph(oauth_access_token)
+      @graph = Koala::Facebook::API.new(oauth_access_token)
+    end
+
+    def self.get_my_profile(@graph)
+=begin
+  {
+    "id": "629666774",
+    "first_name": "Sadie",
+    "gender": "female",
+    "last_name": "Pinn",
+    "link": "http://www.facebook.com/629666774",
+    "locale": "en_US",
+    "name": "Sadie Pinn",
+    "timezone": -4,
+    "updated_time": "2013-10-08T20:51:04+0000",
+    "verified": true
+  }
+=end
+      profile = @graph.get_object("me")
+    end
   end
 end
