@@ -82,6 +82,8 @@ module Facegang
     def self.run_response_thread(cl)
       jabber_id = "100008395922337@chat.facebook.com"
 
+      Jabber::debug = true
+
       cl.send(Presence.new)
       puts "Connected ! send messages to #{jabber_id}."
       mainthread = Thread.current
