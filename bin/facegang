@@ -24,38 +24,38 @@ class App
     end
 
     if tool == "autoresponder" and options["install"]
-      # Install facebook app and start autoresponder
-      begin
-        # Install facebook app, get access token to start responder
-        info "Installing facebook app and getting token"
-        session = FacebookMacros.install_app_get_token(config)
-        info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
-
-        # Use Graph API to get our users profile
-        info "Polling Graph API for profile data"
-        @graph = FacebookMacros.get_graph(session[:access_token])
-        @profile = FacebookMacros.get_my_profile(@graph)
-        debug "PROFILE: #{@profile.to_s}"
-        info "Starting autoresponder..."
-
-        # Build new client
-        client = Autoresponder.build_client(@profile["id"], config["app_id"], session[:access_token], config["app_secret"])
-        # Run message call back thread
-        Autoresponder.run_response_thread(client)
-      rescue => e
-        error "#{e}"
-      end
-
-      # Now that we have the access token use it to start the autoresponder
-
+      install_app_start_autoresponder
     end
 
 
   end
 
   # supplemental methods here
-  # Declare command-line interface here
+  def self.install_app_start_autoresponder
+  # Install facebook app and start autoresponder
+    begin
+      # Install facebook app, get access token to start responder
+      info "Installing facebook app and getting token"
+      session = FacebookMacros.install_app_get_token(config)
+      info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
 
+      # Use Graph API to get our users profile
+      info "Polling Graph API for profile data"
+      @graph = FacebookMacros.get_graph(session[:access_token])
+      @profile = FacebookMacros.get_my_profile(@graph)
+      debug "PROFILE: #{@profile.to_s}"
+      info "Starting autoresponder..."
+
+      # Build new client
+      client = Autoresponder.build_client(@profile["id"], config["app_id"], session[:access_token], config["app_secret"])
+      # Run message call back thread
+      Autoresponder.run_response_thread(client)
+    rescue => e
+      error "#{e}"
+    end
+  end
+
+  # Declare command-line interface here
   description "Facebook e-whoring toolkit"
 
   # Accept flags via:
