@@ -7,6 +7,7 @@ require 'facegang.rb'
 class App
   include Methadone::Main
   include Methadone::CLILogging
+  include Methadone::CLILogger
   include Facegang
 
   main do |config_file, tool|
