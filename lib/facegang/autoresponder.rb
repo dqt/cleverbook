@@ -87,9 +87,12 @@ module Facegang
       mainthread = Thread.current
       cl.add_message_callback do |m|
         if m.type != :error
+          puts m.class
+          puts m.to_s
+          puts m.type.to_s
           m2 = Message.new(m.from, "You sent: #{m.body}")
           m2.type = m.type
-          cl.send(m2)
+          cl.send(m2) unless m.body.empty?
           if m.body == 'exit'
             m2 = Message.new(m.from, "Exiting ...")
             m2.type = m.type

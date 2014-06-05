@@ -115,7 +115,7 @@ module Facegang
         debug "REDIRECT URL: #{url}"
         debug "ACCESS CODE: #{url[28..-5]}" # Given site_url = "http://127.0.0.1:8080/"
 
-        # session.driver.browser.quit
+        session.driver.browser.quit
 
         url[28..-5] # Replace with regex
       rescue => e
