@@ -11,39 +11,39 @@ class App
 
   main do |config_file, tool|
 
-    info "Started program"
+    x.info "Started program"
 
     begin
-      info "Loading configuration file"
-      debug "CONFIG LOCATION: #{Dir.pwd}/#{config_file}"
+      x.info "Loading configuration file"
+      x.debug "CONFIG LOCATION: #{Dir.pwd}/#{config_file}"
       config = YAML::load(File.read("#{Dir.pwd}/#{config_file}"))
-      debug "Loaded config successfully"
+      x.debug "Loaded config successfully"
     rescue => e
-      warn "Error loading configuration file"
-      error "#{e}"
+      x.warn "Error loading configuration file"
+      x.error "#{e}"
     end
 
     if tool == "autoresponder" and options["install"]
       # Install facebook app and start autoresponder
       begin
         # Install facebook app, get access token to start responder
-        info "Installing facebook app and getting token"
+        x.info "Installing facebook app and getting token"
         session = FacebookMacros.install_app_get_token(config)
-        info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
+        x.info "ACCESS TOKEN GRANTED: #{session[:access_token]}"
 
         # Use Graph API to get our users profile
-        info "Polling Graph API for profile data"
+        x.info "Polling Graph API for profile data"
         @graph = FacebookMacros.get_graph(session[:access_token])
         @profile = FacebookMacros.get_my_profile(@graph)
-        debug "PROFILE: #{@profile.to_s}"
-        info "Starting autoresponder..."
+        x.debug "PROFILE: #{@profile.to_s}"
+        x.info "Starting autoresponder..."
 
         # Build new client
         client = Autoresponder.build_client(@profile["id"], config["app_id"], session[:access_token], config["app_secret"])
         # Run message call back thread
         Autoresponder.run_response_thread(client)
       rescue => e
-        error "#{e}"
+        x.error "#{e}"
       end
 
       # Now that we have the access token use it to start the autoresponder
@@ -76,7 +76,9 @@ class App
 
   version Facegang::VERSION
 
+  # Global logging object
   use_log_level_option
+  x = CLILogger.new('facegang.log')
 
   go!
 end
