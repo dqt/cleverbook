@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('capybara')
   spec.add_development_dependency('poltergeist')
   spec.add_development_dependency('selenium-webdriver')
+  spec.add_development_dependency('cleverbot')
   # Added custom testing dependencies
   spec.add_development_dependency('shoulda-matchers')
   spec.add_development_dependency('factory_girl')
