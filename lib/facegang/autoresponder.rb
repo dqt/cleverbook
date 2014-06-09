@@ -76,7 +76,7 @@ module Facegang
       id = "#{id_string}@chat.facebook.com"
       to = to_string
       response = get_response_from_script(incoming_message)
-      body = response.text
+      body = response
       # Psuedo-randomn anti-signature goodness in the subject
       subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
       message = Jabber::Message.new to, body
