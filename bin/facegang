@@ -104,6 +104,7 @@ class App
   # Global logging object
   use_log_level_option
   # self.logger = Logger.new('facegang.log')
+  # Added comment to test new git branching workflow.
 
   go!
 end
