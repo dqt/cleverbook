@@ -1,4 +1,4 @@
-# This class was borrowed from Pawel Mikolajewski's john-doe and heavily modified to meet my needs
+# This class was borrowed from Pawel Mikolajewski's john-doe and modified to meet my needs
 # Check it out here: https://github.com/dfens/john-doe
 
 module Facegang
@@ -31,7 +31,7 @@ module Facegang
       unless best_v.nil?
         return Response.new(sub_v(random_quote(@data.responses[best_v[:resp]], /^#{best_k}/i.match(sentence).captures)),best_v[:emotions])
       else
-        generated = "Send me to cleverbot!"
+        generated = Facegang::Autoresponder.get_response_from_cleverbot(sentence)
         return Response.new(generated, ["none"]) unless generated.nil?
         return Response.new(sub_v(random_quote(@data.default["dontunderstand"])),["none"])
       end

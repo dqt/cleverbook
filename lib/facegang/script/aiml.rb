@@ -1,4 +1,4 @@
-# This class was borrowed from Pawel Mikolajewski's john-doe and heavily modified to meet my needs
+# This class was borrowed from Pawel Mikolajewski's john-doe and modified to meet my needs
 # Check it out here: https://github.com/dfens/john-doe
 
 require 'yaml'

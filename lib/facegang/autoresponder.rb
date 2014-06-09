@@ -116,16 +116,16 @@ module Facegang
       mainthread = Thread.current
       cl.add_message_callback do |m|
         if m.type != :error
-          #m2, convo[m.from] = build_message_bot(id_string, m.from, m.body, convo[m.from]) from cleverbot working
-          m2 = build_message_script(id_string, m.from, m.body)
-          m2.type = m.type
-          cl.send(m2) unless m.body.nil?
           if m.body == 'exit'
             m2 = Message.new(m.from, "Exiting ...")
             m2.type = m.type
             cl.send(m2)
             mainthread.wakeup
           end
+          #m2, convo[m.from] = build_message_bot(id_string, m.from, m.body, convo[m.from]) from cleverbot working
+          m2 = build_message_script(id_string, m.from, m.body)
+          m2.type = m.type
+          cl.send(m2) unless m.body.nil?
         end
       end
       Thread.stop
