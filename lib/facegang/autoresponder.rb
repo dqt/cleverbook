@@ -81,7 +81,7 @@ module Facegang
       subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
       message = Jabber::Message.new to, body
       message.subject = subject
-      return message, params
+      return message
     end
 
     def self.get_response_from_script(input)
