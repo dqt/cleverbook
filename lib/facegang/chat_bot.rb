@@ -1,6 +1,3 @@
-require 'script/aiml'
-require 'script/responser'
-
 module Facegang
   class ChatBot
     def initialize(filename = File.dirname(__FILE__) + "/../default.yml" , quotes_filename = "quotes")
