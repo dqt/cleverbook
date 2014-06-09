@@ -62,11 +62,32 @@ module Facegang
       to = to_string
       params = get_response_from_cleverbot(incoming_message, params)
       body = params["message"]
-      # Psuedo-randomn anti-signature goodnes in the subject
+      # Psuedo-randomn anti-signature goodness in the subject
       subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
       message = Jabber::Message.new to, body
       message.subject = subject
       return message, params
+    end
+
+    def self.build_message_script(id_string, to_string, incoming_message, params = {})
+      if params.nil?
+        params = {}
+      end
+      id = "#{id_string}@chat.facebook.com"
+      to = to_string
+      response = get_response_from_script(incoming_message)
+      body = response
+      # Psuedo-randomn anti-signature goodness in the subject
+      subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
+      message = Jabber::Message.new to, body
+      message.subject = subject
+      return message, params
+    end
+
+    def self.get_response_From_script(input)
+      cb = Facegang::ChatBot.new("default.yml", "quotes")
+      response = cb.get_response input
+      response.text
     end
 
     def self.get_response_from_cleverbot(my_message, params = {})
@@ -95,8 +116,8 @@ module Facegang
       mainthread = Thread.current
       cl.add_message_callback do |m|
         if m.type != :error
-          m2, convo[m.from] = build_message_bot(id_string, m.from, m.body, convo[m.from])
-          # m2 = Message.new(m.from, "You sent: #{m.body}")
+          #m2, convo[m.from] = build_message_bot(id_string, m.from, m.body, convo[m.from]) from cleverbot working
+          m2 = build_message_script(id_string, m.from, m.body)
           m2.type = m.type
           cl.send(m2) unless m.body.nil?
           if m.body == 'exit'

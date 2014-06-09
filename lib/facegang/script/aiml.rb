@@ -1,0 +1,51 @@
+# This class was borrowed from Pawel Mikolajewski's john-doe and heavily modified to meet my needs
+# Check it out here: https://github.com/dfens/john-doe
+
+require 'yaml'
+module Facegang
+
+  class Aiml
+    attr_accessor :rules,:patterns,:responses, :default, :knowledge, :emotions
+    def initialize
+      @rules = []
+      @patterns = {}
+      @responses = []
+      @default = []
+      @knowledge = []
+      @emotions = {}
+    end
+
+    def load(filename)
+      data= YAML::load_file(filename)
+      collect_data data
+      @default = data['default']
+      @knowledge = data['knowledge']
+      normalise_default
+    end
+
+    protected
+
+    def collect_data(data)
+      data.keys.each do |category|
+        next if category == "default" || category == "knowledge"
+        collection = data[category]
+        responses = collection['responses'].collect{|k,v| v}
+        @responses.push(responses)
+        emotions = (collection["emotion"].split("|") rescue ["none"])
+        priority = (collection["rank"].to_i rescue 0)
+        collection['patterns'].each{|k,v| @patterns[normalise_pattern(v)] = { :resp => (@responses.size - 1), :emotions => emotions, :priority => priority}}
+      end
+    end
+
+    def normalise_default
+      @default.keys.each do |key|
+        @default[key]= @default[key].map{|k,v| v}
+      end
+    end
+    def normalise_pattern(pattern)
+      pattern.gsub("*",".*").gsub("$","([^\n\?!.$]*)").gsub("?","\\?")
+    end
+
+  end
+
+end
