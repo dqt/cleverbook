@@ -10,7 +10,6 @@ module Facegang
     end
   end
   class Responser
-    attr_accessor :text
     def initialize(data, quotes)
       @data = data
       @quotes_file = File.open(quotes,"a")
@@ -33,9 +32,7 @@ module Facegang
         return Response.new(sub_v(random_quote(@data.responses[best_v[:resp]], /^#{best_k}/i.match(sentence).captures)),best_v[:emotions])
       else
         generated = Facegang::Autoresponder.get_response_from_cleverbot(sentence)
-        message = Hash.new
-        message[:text] = generated
-        return message
+        return generated["message"]
         #return Response.new(generated, ["none"]) unless generated.nil?
         #return Response.new(sub_v(random_quote(@data.default["dontunderstand"])),["none"])
       end
