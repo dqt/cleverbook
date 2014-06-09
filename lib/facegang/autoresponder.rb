@@ -84,7 +84,7 @@ module Facegang
       return message, params
     end
 
-    def self.get_response_From_script(input)
+    def self.get_response_from_script(input)
       cb = Facegang::ChatBot.new("default.yml", "quotes")
       response = cb.get_response input
       response.text
