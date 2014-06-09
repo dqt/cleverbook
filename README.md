@@ -1,29 +1,38 @@
-# Facegang
+# Facebook Autoresponder Bot
+##### Tested on Ubuntu 12.10 i686  VM from [DigitalOcean](https://www.digitalocean.com/?refcode=491a07ff4e96 )
 
-TODO: Write a gem description
+>Author: Thomas Graves  
+Twitter: [@dqt](http://twitter.com/dqt)  
+Email: prostitute@att.net  
+Website: http://digitalgangster.com
 
-## Installation
 
-Add this line to your application's Gemfile:
+## First install Ruby using RVM
 
-    gem 'facegang'
+http://rvm.io/rvm/install
 
-And then execute:
+## Install required gems
 
-    $ bundle
+```
+gem install koala
+gem install xmpp4r
+gem install xmpp4r_facebook
+gem install capybara
+gem install capybara-webkit
+gem install selenium-webdriver
+```
 
-Or install it yourself as:
+## Install PhantomJS
 
-    $ gem install facegang
+##### Adjust code to fit your environment
 
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it ( https://github.com/[my-github-username]/facegang/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+```
+sudo apt-get install libfontconfig1
+cd /usr/local/share/
+wget https://phantomjs.googlecode.com/files/phantomjs-1.9.1-linux-x86_64.tar.bz2
+tar xjf phantomjs-1.9.1-linux-x86_64.tar.bz2
+rm -f phantomjs-1.9.1-linux-x86_64.tar.bz2
+ln -s phantomjs-1.9.1-linux-x86_64 phantomjs
+sudo ln -s /usr/local/share/phantomjs/bin/phantomjs /usr/bin/phantomjs
+phantomjs --version
+```
