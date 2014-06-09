@@ -24,15 +24,15 @@ class App
     end
 
     if tool == "autoresponder" and options["install"]
-      install_app_start_autoresponder(config)
+      install_app_start_cb_autoresponder(config)
     elsif tool == "autoresponder" and !options["install"]
-      start_autoresponder(config)
+      start_cb_autoresponder(config)
     end
       
   end
 
   # supplemental methods here
-  def self.install_app_start_autoresponder(config)
+  def self.install_app_start_cb_autoresponder(config)
   # Install facebook app and start autoresponder
     begin
       # Install facebook app, get access token to start responder
@@ -50,13 +50,13 @@ class App
       # Build new client
       client = Autoresponder.build_client(@profile["id"], config["app_id"], session[:access_token], config["app_secret"])
       # Run message call back thread
-      Autoresponder.run_response_thread(client, @profile["id"])
+      Autoresponder.run_bot_only_response_thread(client, @profile["id"])
     rescue => e
       error "#{e}"
     end
   end
 
-  def self.start_autoresponder(config)
+  def self.start_cb_autoresponder(config)
   # Skip app install, just get access token and start responder
     begin
       # Install facebook app, get access token to start responder
@@ -74,7 +74,7 @@ class App
       # Build new client
       client = Autoresponder.build_client(@profile["id"], config["app_id"], session[:access_token], config["app_secret"])
       # Run message call back thread
-      Autoresponder.run_response_thread(client, @profile["id"])
+      Autoresponder.run_bot_only_response_thread(client, @profile["id"])
     rescue => e
       error "#{e}"
     end
