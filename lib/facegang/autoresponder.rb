@@ -87,7 +87,7 @@ module Facegang
     def self.get_response_from_script(input)
       cb = Facegang::ChatBot.new("default.yml", "quotes")
       response = cb.get_response input
-      response.text
+      response.is_a?(Hash) ? response.text : response
     end
 
     def self.get_response_from_cleverbot(my_message, params = {})
