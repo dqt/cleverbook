@@ -28,9 +28,9 @@ module Cleverbook
       debug "APP SECRET: #{@app_secret}"
       debug "ACCESS TOKEN: #{@access_token}"
       jabber_id = "#{@user_id}@chat.facebook.com"
-      debug "JABBERID: #{@jabber_id}"
+      debug "JABBERID: #{jabber_id}"
       begin
-        @client = Jabber::Client.new Jabber::JID.new(@jabber_id)
+        @client = Jabber::Client.new Jabber::JID.new(jabber_id)
         @client.connect
         @client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(@client, @app_id, @access_token, @app_secret), nil)
         @client
@@ -40,7 +40,7 @@ module Cleverbook
         debug "APPID: #{@app_id}"
         debug "APP SECRET: #{@app_secret}"
         debug "ACCESS TOKEN: #{@access_token}"
-        debug "JABBERID: #{@jabber_id}"
+        debug "JABBERID: #{jabber_id}"
         error "#{e}"
       end
     end
