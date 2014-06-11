@@ -5,7 +5,6 @@ require 'selenium-webdriver'
 
 module Cleverbook
   class FacebookMacros
-
     include Methadone::Main
     include Methadone::CLILogging
 
