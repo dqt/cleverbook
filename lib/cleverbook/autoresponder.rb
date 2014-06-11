@@ -150,7 +150,8 @@ module Cleverbook
             m2.type = m.type
             cl.send(m2)
             mainthread.wakeup
-          end          m2 = build_message_script(id_string, m.from, m.body)
+          end          
+          m2 = build_message_script(id_string, m.from, m.body)
           m2.type = m.type
           cl.send(m2) unless m.body.nil?
         end
