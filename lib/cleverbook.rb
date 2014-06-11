@@ -7,6 +7,10 @@ require "cleverbook/chat_bot"
 
 module Cleverbook
   class << self
+    include Methadone::Main
+    include Methadone::CLILogging
+    include Cleverbook
+    
     def install_app_start_cb_autoresponder(config)
     # Install facebook app and start autoresponder
       begin
