@@ -3,6 +3,7 @@
 require 'optparse'
 require 'methadone'
 require 'cleverbook.rb'
+require 'cleverbook'
 
 class App
   include Methadone::Main
@@ -24,9 +25,9 @@ class App
     end
 
     if tool == "autoresponder" and options["install"]
-      Cleverbook.install_app_start_cb_autoresponder(config)
+      install_app_start_cb_autoresponder(config)
     elsif tool == "autoresponder" and !options["install"]
-      Cleverbook.start_cb_autoresponder(config)
+      start_cb_autoresponder(config)
     end
       
   end
