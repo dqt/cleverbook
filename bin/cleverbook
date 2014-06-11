@@ -23,10 +23,14 @@ class App
       error "#{e}"
     end
 
-    if tool == "autoresponder" and options["install"]
+    if tool == "autoresponder" and options["install"] and !options["script"]
       Cleverbook.install_app_start_cb_autoresponder(config)
-    elsif tool == "autoresponder" and !options["install"]
+    elsif tool == "autoresponder" and !options["install"] and !options["script"]
       Cleverbook.start_cb_autoresponder(config)
+    elsif tool == "autoresponder" and options["install"] and options["script"]
+      Cleverbook.install_app_start_scripted_autoresponder(config)
+    elsif tool == "autoresponder" and !options["install"] and options["script"]
+      Cleverbook.start_scripted_autoresponder(config)
     end
       
   end
@@ -42,6 +46,7 @@ class App
   #
   # Specify switches via:
   on("--[no-]install", "Install Facebook app to profile")
+  on("--[no-]script", "Whether to use YAML/AIML scripted responses")
   #
   # Or, just call OptionParser methods on opts
   #
