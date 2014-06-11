@@ -3,7 +3,7 @@ require 'capybara'
 require 'capybara/poltergeist'
 require 'selenium-webdriver'
 
-module Facegang
+module Cleverbook
   class FacebookMacros
 
     include Methadone::Main

@@ -1,7 +1,7 @@
 require 'xmpp4r_facebook'
 require 'cleverbot'
 
-module Facegang
+module Cleverbook
   class Autoresponder
 
     include Methadone::Main
@@ -85,7 +85,7 @@ module Facegang
     end
 
     def self.get_response_from_script(input)
-      cb = Facegang::ChatBot.new("default.yml", "quotes")
+      cb = Cleverbook::ChatBot.new("default.yml", "quotes")
       response = cb.get_response input
       response.is_a?(String) ? response : response.text
     end

@@ -1,12 +1,12 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'facegang/version'
+require 'cleverbook/version'
 require 'rubygems'
 
 Gem::Specification.new do |spec|
-  spec.name          = "facegang"
-  spec.version       = Facegang::VERSION
+  spec.name          = "cleverbook"
+  spec.version       = Cleverbook::VERSION
   spec.authors       = ["Thomas Graves"]
   spec.email         = ["pythonbabe@gmail.com"]
   spec.summary       = "Collection of Facebook E-whoring Tools"

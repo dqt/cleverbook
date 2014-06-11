@@ -2,7 +2,7 @@
 # Check it out here: https://github.com/dfens/john-doe
 
 require 'yaml'
-module Facegang
+module Cleverbook
 
   class Aiml
     attr_accessor :rules,:patterns,:responses, :default, :knowledge, :emotions

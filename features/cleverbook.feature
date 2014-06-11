@@ -4,7 +4,7 @@ Feature: Autorespond to Facebook messages
   So I don't have to see any dicks
 
   Scenario: Basic UI
-    When I get help for "facegang"
+    When I get help for "cleverbook"
     Then the exit status should be 0
     And the banner should be present
     And the banner should document that this app takes options
@@ -14,7 +14,7 @@ Feature: Autorespond to Facebook messages
 
   Scenario: Load configuration
     Given a configuration file exists at "config.yml"
-    When I successfully run `facegang config.yml`
+    When I successfully run `cleverbook config.yml`
     Then the configuration file "config.yml" should be loaded into a config Hash
     And the config Hash should contain app_id
     And the config Hash should contain app_secret
