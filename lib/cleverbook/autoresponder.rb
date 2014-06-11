@@ -105,7 +105,8 @@ module Cleverbook
       response
     end
 
-    def self.run_response_thread(cl, id_string)
+    def self.run_bot_only_response_thread(cl, id_string)
+      # Get all responses from cleverbot
       jabber_id = "#{id_string}@chat.facebook.com"
 
       Jabber::debug = true
@@ -122,8 +123,34 @@ module Cleverbook
             cl.send(m2)
             mainthread.wakeup
           end
-          #m2, convo[m.from] = build_message_bot(id_string, m.from, m.body, convo[m.from]) from cleverbot working
-          m2 = build_message_script(id_string, m.from, m.body)
+          m2, convo[m.from] = build_message_bot(id_string, m.from, m.body, convo[m.from])
+          m2.type = m.type
+          cl.send(m2) unless m.body.nil?
+        end
+      end
+      Thread.stop
+      cl.close
+    end
+
+    def self.run_script_bot_mix_response_thread(cl, id_string)
+      # Get responses from a YAML config file. If suitable response isn't found we get one
+      # from cleverbot
+      jabber_id = "#{id_string}@chat.facebook.com"
+
+      Jabber::debug = true
+      convo = {}
+
+      cl.send(Presence.new)
+      puts "Connected ! send messages to #{jabber_id}."
+      mainthread = Thread.current
+      cl.add_message_callback do |m|
+        if m.type != :error
+          if m.body == 'exit'
+            m2 = Message.new(m.from, "Exiting ...")
+            m2.type = m.type
+            cl.send(m2)
+            mainthread.wakeup
+          end          m2 = build_message_script(id_string, m.from, m.body)
           m2.type = m.type
           cl.send(m2) unless m.body.nil?
         end
