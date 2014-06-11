@@ -28,9 +28,10 @@ module Cleverbook
         info "Starting autoresponder..."
 
         # Build new client
-        client = Autoresponder.build_client(@profile["id"], config["app_id"], @fb.session[:access_token], config["app_secret"])
+        @ar = Autoresponder.new(@profile, config["app_id"], @fb.session[:access_token], config["app_secret"])
+        @ar.build_client
         # Run message call back thread
-        Autoresponder.run_bot_only_response_thread(client, @profile["id"])
+        @ar.run_bot_only_response_thread
       rescue => e
         error "#{e}"
       end
@@ -53,9 +54,10 @@ module Cleverbook
         info "Starting autoresponder..."
 
         # Build new client
-        client = Autoresponder.build_client(@profile["id"], config["app_id"], @fb.session[:access_token], config["app_secret"])
+        @ar = Autoresponder.new(@profile, config["app_id"], @fb.session[:access_token], config["app_secret"])
+        @ar.build_client
         # Run message call back thread
-        Autoresponder.run_bot_only_response_thread(client, @profile["id"])
+        @ar.run_bot_only_response_thread
       rescue => e
         error "#{e}"
       end
