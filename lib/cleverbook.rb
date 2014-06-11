@@ -6,7 +6,7 @@ require "cleverbook/script/responser"
 require "cleverbook/chat_bot"
 
 module Cleverbook
-  def self.install_app_start_cb_autoresponder(config)
+  def install_app_start_cb_autoresponder(config)
   # Install facebook app and start autoresponder
     begin
       # Install facebook app, get access token to start responder
@@ -31,7 +31,7 @@ module Cleverbook
     end
   end
 
-  def self.start_cb_autoresponder(config)
+  def start_cb_autoresponder(config)
   # Skip app install, just get access token and start responder
     begin
       # Install facebook app, get access token to start responder
