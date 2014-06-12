@@ -9,49 +9,44 @@ module Cleverbook
 
     def initialize(facebook_profile, app_id, access_token, app_secret)
       @facebook_profile = facebook_profile
-      @user_id = @facebook_profile["id"]
+      @jabber_id = "#{@facebook_profile['id']}@chat.facebook.com"
       @app_id = app_id
       @access_token = access_token
       @app_secret = app_secret
       @client = nil
       # Add last message params for continuous sessions with cleverbot when mixed @params = params
-      # Build jabber_id here and factor out @user_id
     end
 
-    attr_reader :facebook_profile, :user_id, :app_id, :access_token, :app_secret
+    attr_reader :facebook_profile, :jabber_id, :app_id, :access_token, :app_secret
     attr_accessor :client #, :params
 
     def build_client
       info "Builing Jabber client"
-      debug "USERID: #{@user_id}"
       debug "APPID: #{@app_id}"
       debug "APP SECRET: #{@app_secret}"
       debug "ACCESS TOKEN: #{@access_token}"
-      jabber_id = "#{@user_id}@chat.facebook.com"
-      debug "JABBERID: #{jabber_id}"
+      debug "JABBERID: #{@jabber_id}"
       begin
-        @client = Jabber::Client.new Jabber::JID.new(jabber_id)
+        @client = Jabber::Client.new Jabber::JID.new(@jabber_id)
         @client.connect
         @client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(@client, @app_id, @access_token, @app_secret), nil)
         @client
       rescue => e
         warn "Failed to build Jabber client"
-        debug "USERID: #{@user_id}"
         debug "APPID: #{@app_id}"
         debug "APP SECRET: #{@app_secret}"
         debug "ACCESS TOKEN: #{@access_token}"
-        debug "JABBERID: #{jabber_id}"
+        debug "JABBERID: #{@jabber_id}"
         error "#{e}"
       end
     end
 
     def run_bot_only_response_thread
       # Get all responses from cleverbot
-      jabber_id = "#{@user_id}@chat.facebook.com"
       Jabber::debug = true
       convo = {}
       @client.send(Presence.new)
-      puts "Connected ! send messages to #{jabber_id}."
+      puts "Connected ! send messages to #{@jabber_id}."
       mainthread = Thread.current
       @client.add_message_callback do |m|
         if m.type != :error
@@ -61,7 +56,7 @@ module Cleverbook
             @client.send(m2)
             mainthread.wakeup
           end
-          m2, convo[m.from] = build_message_bot(@user_id, m.from, m.body, convo[m.from])
+          m2, convo[m.from] = build_message_bot(m.from, m.body, convo[m.from])
           m2.type = m.type
           @client.send(m2) unless m.body.nil?
         end
@@ -72,11 +67,10 @@ module Cleverbook
 
     def run_script_bot_mix_response_thread
       # Get responses from a YAML config file. If suitable response isn't found we get one from cleverbot
-      jabber_id = "#{@user_id}@chat.facebook.com"
       Jabber::debug = true
       convo = {}
       @client.send(Presence.new)
-      puts "Connected ! send messages to #{jabber_id}."
+      puts "Connected ! send messages to #{@jabber_id}."
       mainthread = Thread.current
       @client.add_message_callback do |m|
         if m.type != :error
@@ -86,7 +80,7 @@ module Cleverbook
             @client.send(m2)
             mainthread.wakeup
           end          
-          m2 = build_message_script(@user_id, m.from, m.body)
+          m2 = build_message_script(m.from, m.body)
           m2.type = m.type
           @client.send(m2) unless m.body.nil?
         end
@@ -119,7 +113,6 @@ module Cleverbook
     def build_message_bot(to, incoming_message, params = {})
       # Calls method to get response from clever bot and formats it to be sent
       # Params are returned to be sent back to cleverbot for continuous dialogue
-      id = "#{@user_id}@chat.facebook.com"
       params = get_response_from_cleverbot(incoming_message, params)
       body = params["message"]
       subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
@@ -132,7 +125,6 @@ module Cleverbook
       # Calls method to use ChatBot AI loaded from YAML file to try to find suitable response
       # In the ChatBot if no suitable response is found it gets one from Cleverbot.
       # Response is then formatted to be sent
-      id = "#{@user_id}@chat.facebook.com"
       body = get_response_from_script(incoming_message)
       subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
       message = Jabber::Message.new to, body

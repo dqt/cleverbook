@@ -32,6 +32,7 @@ module Cleverbook
         return Response.new(sub_v(random_quote(@data.responses[best_v[:resp]], /^#{best_k}/i.match(sentence).captures)),best_v[:emotions])
       else
         generated = Cleverbook::Autoresponder.get_response_from_cleverbot(sentence)
+        # Factor this to return params, remember the weird Class check we do
         return generated["message"]
         #return Response.new(generated, ["none"]) unless generated.nil?
         #return Response.new(sub_v(random_quote(@data.default["dontunderstand"])),["none"])
