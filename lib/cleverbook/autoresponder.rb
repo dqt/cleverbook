@@ -56,9 +56,21 @@ module Cleverbook
             @client.send(m2)
             mainthread.wakeup
           end
-          m2, convo[m.from] = build_message_bot(m.from, m.body, convo[m.from])
-          m2.type = m.type
-          @client.send(m2) unless m.body.nil?
+          begin
+            info "Getting response from Cleverbot"
+            m2, convo[m.from] = build_message_bot(m.from, m.body, convo[m.from])
+            debug "RESPONSE: #{m2}"
+            debug "CONVO HASH: #{convo.to_s}"
+            debug "Setting type"
+            m2.type = m.type
+            debug "TYPE: #{m2.type}"
+            info "Sending message"
+            @client.send(m2) unless m.body.nil?
+            info "Message sent"
+          rescue => e
+            warn "Failed to send message"
+            error "#{e}"
+          end
         end
       end
       Thread.stop
@@ -115,6 +127,7 @@ module Cleverbook
       # Params are returned to be sent back to cleverbot for continuous dialogue
       params = get_response_from_cleverbot(incoming_message, params)
       body = params["message"]
+      info body.to_s
       subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
       message = Jabber::Message.new to, body
       message.subject = subject
