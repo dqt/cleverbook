@@ -167,6 +167,7 @@ module Cleverbook
       # Does the work of getting a response from Cleverbot. Response is a Hash
       # @params["message"] is the last message recieved from CB
       params = Cleverbot::Client.write incoming_message, params
+      params
     end
 
     def replace_words_in_response(response, options = {})
