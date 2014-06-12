@@ -125,13 +125,23 @@ module Cleverbook
     def build_message_bot(to, incoming_message, params = {})
       # Calls method to get response from clever bot and formats it to be sent
       # Params are returned to be sent back to cleverbot for continuous dialogue
-      params = get_response_from_cleverbot(incoming_message, params)
-      body = params["message"]
-      info body.to_s
-      subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
-      message = Jabber::Message.new to, body
-      message.subject = subject
-      return message, params
+      begin
+        debug "Calling get_response_from_cleverbot"
+        params = get_response_from_cleverbot(incoming_message, params)
+        debug "PARAMS: #{params.to_s}"
+        body = params["message"]
+        debug "BODY #{body}"
+        subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
+        message = Jabber::Message.new to, body
+        message.subject = subject
+        return message, params
+      rescue => e
+        warn "build_message_bot failed"
+        debug "TO: #{to}"
+        debug "INCOMING_MESSAGE #{incoming_message}"
+        debug "PARAMS: #{params.to_s}"
+        error "#{e}"
+      end
     end
 
     def build_message_script(to, incoming_message)
@@ -156,7 +166,7 @@ module Cleverbook
     def get_response_from_cleverbot(incoming_message, params = {})
       # Does the work of getting a response from Cleverbot. Response is a Hash
       # @params["message"] is the last message recieved from CB
-      @params = Cleverbot::Client.write incoming_message, params
+      params = Cleverbot::Client.write incoming_message, params
     end
 
     def replace_words_in_response(response, options = {})
