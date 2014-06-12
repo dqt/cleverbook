@@ -37,7 +37,7 @@ module Cleverbook
         debug "APP SECRET: #{@app_secret}"
         debug "ACCESS TOKEN: #{@access_token}"
         debug "JABBERID: #{@jabber_id}"
-        error death_log(e)
+        error "#{e}"
       end
     end
 
@@ -70,7 +70,7 @@ module Cleverbook
             info "Message sent"
           rescue => e
             warn "Failed to send message"
-            error death_log(e)
+            error "#{e}"
           end
         end
       end
@@ -114,7 +114,7 @@ module Cleverbook
         warn "Failed to send xmpp message"
         debug "CLIENT: #{@client.to_s}"
         debug "MESSAGE: #{message}"
-        error death_log(e)
+        error "#{e}"
       end
     end
 
@@ -143,7 +143,7 @@ module Cleverbook
         debug "TO: #{to}"
         debug "INCOMING_MESSAGE #{incoming_message}"
         debug "PARAMS: #{params.to_s}"
-        error death_log(e)
+        error "#{e}"
       end
     end
 
@@ -177,7 +177,7 @@ module Cleverbook
         params
       rescue => e
         warn "get_response_from_cleverbot Failed"
-        error death_log(e)
+        error "#{e}"
     end
 
     def replace_words_in_response(response, options = {})
