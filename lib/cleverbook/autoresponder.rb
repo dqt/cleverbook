@@ -178,6 +178,7 @@ module Cleverbook
       rescue => e
         warn "get_response_from_cleverbot Failed"
         error "#{e}"
+      end
     end
 
     def replace_words_in_response(response, options = {})
