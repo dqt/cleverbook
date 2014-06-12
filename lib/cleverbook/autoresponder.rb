@@ -61,6 +61,7 @@ module Cleverbook
             m2, convo[m.from] = build_message_bot(m.from, m.body, convo[m.from])
             debug "RESPONSE: #{m2}"
             debug "CONVO HASH: #{convo.to_s}"
+            debug "CONVO[m.from]: #{convo[m.from]}"
             debug "Setting type"
             m2.type = m.type
             debug "TYPE: #{m2.type}"
@@ -133,13 +134,17 @@ module Cleverbook
         debug "BODY #{body}"
         subject = "Droid Message ID: #{((0...12).map { (65 + rand(26)).chr }.join).downcase}"
         message = Jabber::Message.new to, body
+        debug "MESSAGE: #{message}"
         message.subject = subject
+        debug "SUBJECT: #{message.subject}"
         return message, params
       rescue => e
         warn "build_message_bot failed"
         debug "TO: #{to}"
         debug "INCOMING_MESSAGE #{incoming_message}"
         debug "PARAMS: #{params.to_s}"
+        debug "MESSAGE: #{message}"
+        debug "SUBJECT: #{message.subject}"
         error "#{e}"
       end
     end
