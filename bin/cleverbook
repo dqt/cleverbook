@@ -15,8 +15,8 @@ class App
 
     begin
       info "Loading configuration file"
-      debug "CONFIG LOCATION: #{Dir.pwd}/#{config_file}"
-      config = YAML::load(File.read("#{Dir.pwd}/#{config_file}"))
+      debug "CONFIG LOCATION: #{ENV["HOME"]}/#{config_file}"
+      config = YAML::load(File.read("#{ENV["HOME"]}/#{config_file}"))
       debug "Loaded config successfully"
     rescue => e
       warn "Error loading configuration file"
@@ -61,7 +61,9 @@ class App
 
   # Global logging object
   use_log_level_option
-  self.logger = Logger.new('cleverbook.log')
+  self.logger = Methadone::CLILogger.new('cleverbook.log')
+  self.logger.level = Logger::DEBUG
+  self.logger.error_level = Logger::INFO
   # Added comment to test new git branching workflow.
 
   go!

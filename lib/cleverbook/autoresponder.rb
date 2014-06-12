@@ -37,7 +37,7 @@ module Cleverbook
         debug "APP SECRET: #{@app_secret}"
         debug "ACCESS TOKEN: #{@access_token}"
         debug "JABBERID: #{@jabber_id}"
-        error "#{e}"
+        error death_log(e)
       end
     end
 
@@ -70,7 +70,7 @@ module Cleverbook
             info "Message sent"
           rescue => e
             warn "Failed to send message"
-            error "#{e}"
+            error death_log(e)
           end
         end
       end
@@ -114,7 +114,7 @@ module Cleverbook
         warn "Failed to send xmpp message"
         debug "CLIENT: #{@client.to_s}"
         debug "MESSAGE: #{message}"
-        error "#{e}"
+        error death_log(e)
       end
     end
 
@@ -143,7 +143,7 @@ module Cleverbook
         debug "TO: #{to}"
         debug "INCOMING_MESSAGE #{incoming_message}"
         debug "PARAMS: #{params.to_s}"
-        error "#{e}"
+        error death_log(e)
       end
     end
 
@@ -169,11 +169,15 @@ module Cleverbook
     def get_response_from_cleverbot(incoming_message, params = {})
       # Does the work of getting a response from Cleverbot. Response is a Hash
       # @params["message"] is the last message recieved from CB
-      debug "Inside get_response_from_cleverbot"
-      debug "PARAMS BEFORE CB WRITE: #{params.to_s}"
-      params = Cleverbot::Client.write incoming_message, params
-      debug "PARAMS INSIDE GRFCB: params.to_s"
-      params
+      begin
+        debug "Inside get_response_from_cleverbot"
+        debug "PARAMS BEFORE CB WRITE: #{params.to_s}"
+        params = Cleverbot::Client.write incoming_message, params
+        debug "PARAMS INSIDE GRFCB: params.to_s"
+        params
+      rescue => e
+        warn "get_response_from_cleverbot Failed"
+        error death_log(e)
     end
 
     def replace_words_in_response(response, options = {})

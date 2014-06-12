@@ -1,4 +1,5 @@
 require "cleverbook/version"
+require "cleverbook/env"
 require "cleverbook/facebook_macros"
 require "cleverbook/autoresponder"
 require "cleverbook/script/aiml"
@@ -115,6 +116,22 @@ module Cleverbook
       rescue => e
         error "#{e}"
       end
+    end
+
+    def clean_backtrace(exception)
+      if backtrace = exception.backtrace
+        if defined?(ENV["HOME"])
+          backtrace.map { |line| line.sub ENV["HOME"], '' }
+        else
+          backtrace
+        end
+      end
+    end
+
+    def death_log(exception)
+      "\n\n#{exception.class} (#{exception.message}):\n    " +
+      clean_backtrace(exception).join("\n    ") +
+      "\n\n"
     end
   end
 end
