@@ -61,7 +61,7 @@ class App
 
   # Global logging object
   use_log_level_option
-  # self.logger = Logger.new('cleverbook.log')
+  self.logger = Logger.new('cleverbook.log')
   # Added comment to test new git branching workflow.
 
   go!

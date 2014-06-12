@@ -170,6 +170,7 @@ module Cleverbook
       # Does the work of getting a response from Cleverbot. Response is a Hash
       # @params["message"] is the last message recieved from CB
       debug "Inside get_response_from_cleverbot"
+      debug "PARAMS BEFORE CB WRITE: #{params.to_s}"
       params = Cleverbot::Client.write incoming_message, params
       debug "PARAMS INSIDE GRFCB: params.to_s"
       params
