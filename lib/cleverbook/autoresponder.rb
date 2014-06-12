@@ -143,8 +143,6 @@ module Cleverbook
         debug "TO: #{to}"
         debug "INCOMING_MESSAGE #{incoming_message}"
         debug "PARAMS: #{params.to_s}"
-        debug "MESSAGE: #{message}"
-        debug "SUBJECT: #{message.subject}"
         error "#{e}"
       end
     end
@@ -171,7 +169,9 @@ module Cleverbook
     def get_response_from_cleverbot(incoming_message, params = {})
       # Does the work of getting a response from Cleverbot. Response is a Hash
       # @params["message"] is the last message recieved from CB
+      debug "Inside get_response_from_cleverbot"
       params = Cleverbot::Client.write incoming_message, params
+      debug "PARAMS INSIDE GRFCB: params.to_s"
       params
     end
 
