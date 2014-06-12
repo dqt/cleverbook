@@ -63,6 +63,7 @@ module Cleverbook
         debug "Starting get_auth facebook macro"
         @session[:oauth] = Koala::Facebook::OAuth.new(@config["app_id"], @config["app_secret"], @config["site_url"])
         @session[:auth_url] = session[:oauth].url_for_oauth_code(:permissions=>["read_mailbox", "xmpp_login"])
+        debug "AUTH URL: #{@session[:auth_url]}"
       rescue => e
         warn "Failed to retrieve authorization url!"
         debug "APP ID: #{@config["app_id"]}"
@@ -121,8 +122,13 @@ module Cleverbook
         browser = nil
         browser = Capybara::Session.new(:selenium)
         debug "Session created"
-
-        browser.visit @session[:auth_url]
+        begin
+          browser.visit @session[:auth_url]
+        rescue => e
+          info "Failed that jawn"
+          browser.visit "http://www.google.com"
+        end
+        
         debug "Visited #{@session[:auth_url]}"
         sleep 2
 
